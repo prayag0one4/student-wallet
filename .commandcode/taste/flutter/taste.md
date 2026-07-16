@@ -1,0 +1,20 @@
+# flutter
+- Use Clean Architecture with feature-first folder structure. Confidence: 0.80
+- Use Riverpod for state management with StateNotifier/AsyncNotifier. Confidence: 0.75
+- Use Isar as the local database with sync-ready base entities. Confidence: 0.75
+- Use GetIt for dependency injection with lazy singleton initialization. Confidence: 0.75
+- Use GoRouter for centralized navigation with nested route support. Confidence: 0.75
+- Use Result<T> pattern for repository responses. Confidence: 0.70
+- Design for local-first offline-first architecture with cloud sync preparation. Confidence: 0.80
+- Use centralized logging that is disabled in release builds. Confidence: 0.70
+- Prefer `flutter run` with hot reload on connected device over full rebuild+reinstall (`gradlew assembleDebug` + `adb install`) when user wants to see changes on mobile. Hot reload provides instant feedback for code changes. Confidence: 0.80
+- When `flutter run` fails with "Gradle build failed to produce an .apk file", use `./gradlew assembleDebug` from the android/ directory, then install the APK via `adb install -r`. Confidence: 0.70
+- Build new phases additively on top of existing screens — preserve Phase 0 UI (navigation, feature cards, layout) when adding Phase 1 features like dashboard cards. Confidence: 0.70
+- Keep summary-level spending cards visible on the main expense screen; move detailed analysis (category breakdowns, trends) to a dedicated analysis screen accessible via navigation. Confidence: 0.65
+- Use sticky/floating bottom action bars for primary action buttons (save, apply, reset) so they remain always visible while scrolling forms and filter sheets. Confidence: 0.70
+- Batch multiple StateNotifier state changes into a single atomic update method (e.g., `applyFilters()`) to avoid triggering multiple async refreshes that cause race conditions. Confidence: 0.65
+- Prefer silent/optimistic UI updates over provider invalidation that causes visible loading/refresh effects when data changes. Confidence: 0.70
+- Use the native mobile keyboard for text/number input instead of custom-designed keypads. Confidence: 0.65
+- Use "I Received" and "I Paid" as transaction type labels (not "Lend"/"Borrow"/"Money Given"/"Money Taken"). "I Paid" = receivable (they owe you, positive net), "I Received" = payable (you owe them, negative net). Confidence: 0.70
+- Match card design to the home screen's `_FeatureCard` pattern: use Flutter's native `Card` widget with `InkWell`, circular icon containers with `color.withAlpha(30)`, and standard Material `Text` styling — not `NeumorphicContainer` or `NeuCard`. Confidence: 0.65
+- Enforce one contact per unique name. Check for existing contacts before creating via `SearchContacts` use case. On the Add Contact screen, show an alert dialog if name already exists. In the Add Entry autocomplete, reuse existing contact instead of creating a duplicate. Confidence: 0.70
