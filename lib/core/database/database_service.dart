@@ -8,6 +8,11 @@ import '../../features/expenses/data/models/expense_model.dart';
 import '../../features/expenses/data/models/category_model.dart';
 import '../../features/ledger/data/models/contact_model.dart';
 import '../../features/ledger/data/models/ledger_entry_model.dart';
+import '../../features/split/data/models/group_model.dart';
+import '../../features/split/data/models/group_member_model.dart';
+import '../../features/split/data/models/group_expense_model.dart';
+import '../../features/split/data/models/expense_share_model.dart';
+import '../../features/split/data/models/settlement_model.dart';
 import '../logging/app_logger.dart';
 
 class DatabaseService {
@@ -16,7 +21,7 @@ class DatabaseService {
   final _logger = const AppLogger('DatabaseService');
 
   static const _dbVersionKey = 'db_version';
-  static const int _currentVersion = 5;
+  static const int _currentVersion = 6;
 
   Isar get instance {
     if (!_isInitialized) {
@@ -38,7 +43,8 @@ class DatabaseService {
     }
 
     _isar = await Isar.open(
-      [ExpenseModelSchema, CategoryModelSchema, ContactModelSchema, LedgerEntryModelSchema],
+      [ExpenseModelSchema, CategoryModelSchema, ContactModelSchema, LedgerEntryModelSchema,
+       GroupModelSchema, GroupMemberModelSchema, GroupExpenseModelSchema, ExpenseShareModelSchema, SettlementModelSchema],
       directory: dir.path,
       name: AppConstants.databaseName,
       maxSizeMiB: 256,

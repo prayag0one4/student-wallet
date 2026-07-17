@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
 
 import '../providers/theme_provider.dart';
 
@@ -22,6 +23,21 @@ class SettingsScreen extends StatelessWidget {
                 title: 'Appearance',
                 children: [
                   _ThemeTile(themeProvider: themeProvider),
+                  ListTile(
+                    leading: const Icon(Icons.dashboard_customize),
+                    title: const Text(
+                      'Home Screen Preferences',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    subtitle: const Text(
+                      'Choose your default home feature',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () => context.push('/settings/home-preference'),
+                  ),
                 ],
               ),
               const SizedBox(height: 24),

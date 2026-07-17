@@ -1,4 +1,5 @@
 # flutter
+- On the More screen, use a settings gear icon in the AppBar's `actions` (top-right corner) instead of a Settings card in the scrollable list body. Confidence: 0.70
 - Use Clean Architecture with feature-first folder structure. Confidence: 0.80
 - Use Riverpod for state management with StateNotifier/AsyncNotifier. Confidence: 0.75
 - Use Isar as the local database with sync-ready base entities. Confidence: 0.75
@@ -10,6 +11,7 @@
 - Prefer `flutter run` with hot reload on connected device over full rebuild+reinstall (`gradlew assembleDebug` + `adb install`) when user wants to see changes on mobile. Hot reload provides instant feedback for code changes. Confidence: 0.80
 - When `flutter run` fails with "Gradle build failed to produce an .apk file", use `./gradlew assembleDebug` from the android/ directory, then install the APK via `adb install -r`. Confidence: 0.70
 - Build new phases additively on top of existing screens — preserve Phase 0 UI (navigation, feature cards, layout) when adding Phase 1 features like dashboard cards. Confidence: 0.70
+- Use a card-based home dashboard with feature cards (Expenses, Borrow/Lend, Budget, Bill Splitter, Subscriptions, Analytics). Each card navigates to its feature's dashboard via a dedicated route. Do not embed feature dashboards directly as the home screen and do not implement dynamic home module switching (pinning/replacing the home screen with a single feature's dashboard). Confidence: 0.85
 - Keep summary-level spending cards visible on the main expense screen; move detailed analysis (category breakdowns, trends) to a dedicated analysis screen accessible via navigation. Confidence: 0.65
 - Use sticky/floating bottom action bars for primary action buttons (save, apply, reset) so they remain always visible while scrolling forms and filter sheets. Confidence: 0.70
 - Batch multiple StateNotifier state changes into a single atomic update method (e.g., `applyFilters()`) to avoid triggering multiple async refreshes that cause race conditions. Confidence: 0.65

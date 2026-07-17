@@ -1,6 +1,4 @@
-# Taste (Continuously Learned by [CommandCode][cmd])
-
-[cmd]: https://commandcode.ai/
-
 # flutter
 See [flutter/taste.md](flutter/taste.md)
+# split-module
+See [split-module/taste.md](split-module/taste.md)

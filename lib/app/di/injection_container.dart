@@ -27,7 +27,28 @@ import '../../features/ledger/domain/repositories/contact_repository.dart';
 import '../../features/ledger/domain/repositories/ledger_entry_repository.dart';
 import '../../features/ledger/domain/usecases/contact_usecases.dart';
 import '../../features/ledger/domain/usecases/ledger_entry_usecases.dart';
+import '../../features/split/data/datasources/group_local_datasource.dart';
+import '../../features/split/data/datasources/group_local_datasource_impl.dart';
+import '../../features/split/data/datasources/member_local_datasource.dart';
+import '../../features/split/data/datasources/member_local_datasource_impl.dart';
+import '../../features/split/data/datasources/group_expense_local_datasource.dart';
+import '../../features/split/data/datasources/group_expense_local_datasource_impl.dart';
+import '../../features/split/data/datasources/settlement_local_datasource.dart';
+import '../../features/split/data/datasources/settlement_local_datasource_impl.dart';
+import '../../features/split/data/repositories/group_repository_impl.dart';
+import '../../features/split/data/repositories/member_repository_impl.dart';
+import '../../features/split/data/repositories/group_expense_repository_impl.dart';
+import '../../features/split/data/repositories/settlement_repository_impl.dart';
+import '../../features/split/domain/repositories/group_repository.dart';
+import '../../features/split/domain/repositories/member_repository.dart';
+import '../../features/split/domain/repositories/group_expense_repository.dart';
+import '../../features/split/domain/repositories/settlement_repository.dart';
+import '../../features/split/domain/usecases/group_usecases.dart';
+import '../../features/split/domain/usecases/member_usecases.dart';
+import '../../features/split/domain/usecases/group_expense_usecases.dart';
+import '../../features/split/domain/usecases/settlement_usecases.dart';
 import '../providers/theme_provider.dart';
+import '../providers/user_preferences_service.dart';
 
 final GetIt sl = GetIt.instance;
 
@@ -47,6 +68,9 @@ Future<void> initDependencies() async {
 
   // Application layer
   sl.registerLazySingleton<ThemeProvider>(() => ThemeProvider(sl()));
+  sl.registerLazySingleton<UserPreferencesService>(
+    () => UserPreferencesService(sl()),
+  );
 
   // Analytics
   sl.registerLazySingleton<AnalyticsCalculator>(() => AnalyticsCalculator());
@@ -126,4 +150,57 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton<GetOverdueEntries>(() => GetOverdueEntries(sl()));
   sl.registerLazySingleton<GetTotalReceivable>(() => GetTotalReceivable(sl()));
   sl.registerLazySingleton<GetTotalPayable>(() => GetTotalPayable(sl()));
+
+  // Split feature — Mappers
+  sl.registerLazySingleton<GroupMapper>(() => GroupMapper());
+  sl.registerLazySingleton<GroupMemberMapper>(() => GroupMemberMapper());
+  sl.registerLazySingleton<GroupExpenseMapper>(() => GroupExpenseMapper());
+  sl.registerLazySingleton<ExpenseShareMapper>(() => ExpenseShareMapper());
+  sl.registerLazySingleton<SettlementMapper>(() => SettlementMapper());
+
+  // Split feature — Data sources
+  sl.registerLazySingleton<GroupLocalDataSource>(() => GroupLocalDataSourceImpl(sl(), sl<GroupMapper>()));
+  sl.registerLazySingleton<MemberLocalDataSource>(() => MemberLocalDataSourceImpl(sl(), sl<GroupMemberMapper>()));
+  sl.registerLazySingleton<GroupExpenseLocalDataSource>(() => GroupExpenseLocalDataSourceImpl(sl(), sl<GroupExpenseMapper>(), sl<ExpenseShareMapper>()));
+  sl.registerLazySingleton<SettlementLocalDataSource>(() => SettlementLocalDataSourceImpl(sl(), sl<SettlementMapper>()));
+
+  // Split feature — Repositories
+  sl.registerLazySingleton<GroupRepository>(() => GroupRepositoryImpl(sl()));
+  sl.registerLazySingleton<MemberRepository>(() => MemberRepositoryImpl(sl()));
+  sl.registerLazySingleton<GroupExpenseRepository>(() => GroupExpenseRepositoryImpl(sl()));
+  sl.registerLazySingleton<SettlementRepository>(() => SettlementRepositoryImpl(sl()));
+
+  // Split feature — Use cases (Group)
+  sl.registerLazySingleton<CreateGroup>(() => CreateGroup(sl()));
+  sl.registerLazySingleton<UpdateGroup>(() => UpdateGroup(sl()));
+  sl.registerLazySingleton<DeleteGroup>(() => DeleteGroup(sl()));
+  sl.registerLazySingleton<GetGroupById>(() => GetGroupById(sl()));
+  sl.registerLazySingleton<GetAllGroups>(() => GetAllGroups(sl()));
+  sl.registerLazySingleton<SearchGroups>(() => SearchGroups(sl()));
+
+  // Split feature — Use cases (Member)
+  sl.registerLazySingleton<CreateMember>(() => CreateMember(sl()));
+  sl.registerLazySingleton<UpdateMember>(() => UpdateMember(sl()));
+  sl.registerLazySingleton<DeleteMember>(() => DeleteMember(sl()));
+  sl.registerLazySingleton<GetMemberById>(() => GetMemberById(sl()));
+  sl.registerLazySingleton<GetMembersByGroup>(() => GetMembersByGroup(sl()));
+  sl.registerLazySingleton<GetMemberCount>(() => GetMemberCount(sl()));
+
+  // Split feature — Use cases (GroupExpense)
+  sl.registerLazySingleton<CreateGroupExpense>(() => CreateGroupExpense(sl()));
+  sl.registerLazySingleton<UpdateGroupExpense>(() => UpdateGroupExpense(sl()));
+  sl.registerLazySingleton<DeleteGroupExpense>(() => DeleteGroupExpense(sl()));
+  sl.registerLazySingleton<GetGroupExpenseById>(() => GetGroupExpenseById(sl()));
+  sl.registerLazySingleton<GetGroupExpensesByGroup>(() => GetGroupExpensesByGroup(sl()));
+  sl.registerLazySingleton<GetGroupTotalExpense>(() => GetGroupTotalExpense(sl()));
+  sl.registerLazySingleton<GetSharesByExpense>(() => GetSharesByExpense(sl()));
+  sl.registerLazySingleton<GetSharesByMember>(() => GetSharesByMember(sl()));
+  sl.registerLazySingleton<UpdateShareSettlement>(() => UpdateShareSettlement(sl()));
+
+  // Split feature — Use cases (Settlement)
+  sl.registerLazySingleton<CreateSettlement>(() => CreateSettlement(sl()));
+  sl.registerLazySingleton<DeleteSettlement>(() => DeleteSettlement(sl()));
+  sl.registerLazySingleton<GetSettlementById>(() => GetSettlementById(sl()));
+  sl.registerLazySingleton<GetSettlementsByGroup>(() => GetSettlementsByGroup(sl()));
+  sl.registerLazySingleton<GetMemberSettledTotal>(() => GetMemberSettledTotal(sl()));
 }
