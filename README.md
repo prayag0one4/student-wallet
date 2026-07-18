@@ -1,17 +1,60 @@
-# student_wallet
+# Student Wallet
 
-A new Flutter project.
+A student-focused personal finance management app built with Flutter. Track expenses, manage borrow/lend relationships, split bills in groups, and visualize spending through analytics.
+
+## Features
+
+- **Expense Tracking** — Log personal expenses with categories, payment methods, and filters. View monthly/daily spending dashboards.
+- **Ledger (Borrow/Lend)** — Track money owed to and by you with contact management, due dates, and overdue alerts.
+- **Group Split** — Split bills with groups (equal/percentage/custom). Simplified settlement suggestions using debt simplification.
+- **Analytics** — Monthly trends, category distribution, average transaction size, and spending frequency.
+- **Budget & Subscriptions** — Coming soon.
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| UI Framework | Flutter (Material 3, Neumorphic design) |
+| State Management | Riverpod + GetIt (DI) |
+| Routing | GoRouter with ShellRoute |
+| Database | Isar (embedded NoSQL) |
+| Notifications | flutter_local_notifications + timezone |
+| Formatting | intl (currency, date, number) |
+
+## Architecture
+
+Feature-first Clean Architecture:
+
+```
+lib/
+├── app/          # App shell, routing, DI, screens (splash, home, settings)
+├── core/         # Theme, database, error handling, shared widgets
+├── features/     # Feature modules (expenses, ledger, split, analytics, budget, subscriptions)
+│   └── each feature has:
+│       ├── data/        # Isar models, datasources, repository implementations
+│       ├── domain/      # Entities, repository interfaces, use cases, domain services
+│       └── presentation/# Riverpod providers, screens, widgets
+└── shared/       # Shared utilities
+```
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+```bash
+# Clone the repository
+git clone https://github.com/prayag0one4/wallet-app.git
+cd wallet-app
 
-A few resources to get you started if this is your first Flutter project:
+# Install dependencies
+flutter pub get
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+# Generate Isar models
+dart run build_runner build
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# Run the app
+flutter run
+```
+
+## Build
+
+Minimum SDK: `^3.12.0`  
+Platforms: Android, iOS, Web
